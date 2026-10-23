@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DesignDoctor AI — Website UI/UX Audit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #06080F;
+  --s1:     #0B1120;
+  --s2:     #101828;
+  --s3:     #182033;
+  --s4:     #1E2A40;
+  --b:      rgba(255,255,255,.07);
+  --b2:     rgba(255,255,255,.13);
+  --ink:    #E4EAF8;
+  --ink2:   #8FA3C0;
+  --ink3:   #4B5E7A;
+  --brand:  #6366F1;
+  --brand2: #818CF8;
+  --brand3: #4F46E5;
+  --green:  #10B981;
+  --green2: #34D399;
+  --amber:  #F59E0B;
+  --amber2: #FCD34D;
+  --red:    #EF4444;
+  --red2:   #FCA5A5;
+  --blue:   #3B82F6;
+  --blue2:  #93C5FD;
+  --purple: #A855F7;
+  --r:      12px;
+  --rsm:    7px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font:14px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:99px}
+
+/* ── Layout ── */
+#app{display:flex;flex-direction:column;height:100vh}
+header{
+  display:flex;align-items:center;gap:14px;
+  padding:0 20px;height:52px;flex-shrink:0;
+  background:var(--s1);border-bottom:1px solid var(--b);
+  position:relative;z-index:10;
+}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-mark{
+  width:28px;height:28px;border-radius:7px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--brand),var(--purple));
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+}
+.logo-name{font-size:14px;font-weight:700;letter-spacing:-.2px}
+.logo-name em{font-style:normal;color:var(--brand2)}
+.logo-sub{font-size:11px;color:var(--ink3);font-weight:400}
+.hdr-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.pill{
+  font:11px 'JetBrains Mono',monospace;
+  padding:3px 9px;border-radius:99px;
+  border:1px solid var(--b2);color:var(--ink2);white-space:nowrap;
+}
+.pill-live::before{
+  content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--green2);margin-right:5px;
+  animation:blink 2s ease-in-out infinite;box-shadow:0 0 5px var(--green2);
+}
+.pill-dead::before{
+  content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--amber2);margin-right:5px;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── Main ── */
+main{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,.9fr);
+  flex:1;min-height:0;
+}
+.pane{display:flex;flex-direction:column;padding:16px;min-height:0;overflow:hidden}
+.pane+.pane{border-left:1px solid var(--b)}
+
+.pane-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;flex-shrink:0;
+}
+.pane-title{
+  font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);
+}
+
+/* ── Chat ── */
+#chat-scroll{
+  flex:1;overflow-y:auto;min-height:0;
+  display:flex;flex-direction:column;gap:14px;
+}
+.msg{display:flex;flex-direction:column}
+.msg.user{align-items:flex-end}
+.msg.bot{align-items:flex-start}
+.bubble{max-width:92%;padding:12px 15px;border-radius:14px;word-break:break-word}
+.bubble.user{
+  background:linear-gradient(135deg,var(--brand),var(--purple));
+  color:#fff;font-size:13.5px;border-bottom-right-radius:3px;
+}
+.bubble.bot{
+  background:var(--s2);border:1px solid var(--b);
+  font-size:13.5px;border-bottom-left-radius:3px;
+}
+.bmeta{font-size:11px;color:var(--ink3);margin-top:4px;padding:0 2px}
+
+/* ── Markdown ── */
+.md h1,.md h2,.md h3{font-weight:700;margin:14px 0 6px;line-height:1.3}
+.md h1{font-size:16px}
+.md h2{font-size:14px;color:var(--brand2);border-bottom:1px solid var(--b);padding-bottom:4px}
+.md h3{font-size:13px;color:var(--ink2)}
+.md p{margin:5px 0;line-height:1.65}
+.md ul,.md ol{margin:5px 0 5px 18px}
+.md li{margin:3px 0;line-height:1.6}
+.md strong{font-weight:600;color:var(--ink)}
+.md em{color:var(--ink2);font-style:italic}
+.md code{font:12px 'JetBrains Mono',monospace;background:rgba(255,255,255,.07);color:var(--blue2);padding:1px 5px;border-radius:4px}
+.md pre{background:rgba(0,0,0,.4);border:1px solid var(--b);border-radius:var(--rsm);padding:10px 12px;margin:8px 0;overflow-x:auto}
+.md pre code{background:none;padding:0;color:var(--ink2);font-size:12px}
+.md hr{border:none;border-top:1px solid var(--b);margin:12px 0}
+.md blockquote{border-left:3px solid var(--brand);padding-left:10px;color:var(--ink2);margin:6px 0}
+.sev-c{color:var(--red2);font-weight:600}
+.sev-w{color:var(--amber2);font-weight:600}
+.sev-i{color:var(--blue2);font-weight:600}
+.score-badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:6px;font:12px 'JetBrains Mono',monospace;font-weight:500}
+.sb-good{background:rgba(16,185,129,.13);color:var(--green2);border:1px solid rgba(16,185,129,.25)}
+.sb-warn{background:rgba(245,158,11,.13);color:var(--amber2);border:1px solid rgba(245,158,11,.25)}
+.sb-bad{background:rgba(239,68,68,.13);color:var(--red2);border:1px solid rgba(239,68,68,.25)}
+
+/* ── Typing ── */
+.typing-dots{display:flex;gap:4px;align-items:center;padding:14px 16px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ink3);animation:tdot 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,80%,100%{opacity:.15;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* ── Input ── */
+.input-wrap{margin-top:12px;flex-shrink:0}
+.input-box{
+  display:flex;gap:8px;align-items:flex-end;
+  background:var(--s2);border:1px solid var(--b2);
+  border-radius:var(--r);padding:5px 5px 5px 14px;
+  transition:border-color .15s;
+}
+.input-box:focus-within{border-color:var(--brand)}
+#msg{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--ink);font:14px Inter,sans-serif;
+  padding:7px 0;resize:none;max-height:100px;line-height:1.5;
+}
+#msg::placeholder{color:var(--ink3)}
+#send{
+  width:34px;height:34px;flex-shrink:0;
+  background:var(--brand);border:none;border-radius:8px;
+  color:#fff;cursor:pointer;font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,transform .1s;
+}
+#send:hover{background:var(--brand2)}
+#send:active{transform:scale(.91)}
+#send:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.input-hint{font-size:11px;color:var(--ink3);text-align:center;margin-top:7px}
+.input-hint a{color:var(--ink2);text-decoration:none}
+
+/* ── Decision panel ── */
+#dec-scroll{
+  flex:1;overflow-y:auto;min-height:0;
+  display:flex;flex-direction:column;gap:10px;
+}
+.empty-dec{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  color:var(--ink3);text-align:center;
+}
+.empty-icon{font-size:30px;opacity:.22}
+.empty-dec p{font-size:12px;max-width:180px;line-height:1.5}
+
+/* Decision card */
+.dcard{
+  background:var(--s2);border:1px solid var(--b);
+  border-radius:var(--r);padding:13px;
+  animation:slideUp .25s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.dcard-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+.dcard-title{font-size:12px;font-weight:600;color:var(--ink2)}
+.dcard-tag{font:10px 'JetBrains Mono',monospace;padding:2px 8px;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0}
+.tn{color:var(--green2)}.ta{color:var(--amber2)}.tno{color:var(--blue2)}.td{color:var(--red2)}
+
+.prob-list{display:flex;flex-direction:column;gap:5px}
+.prob-row{display:grid;grid-template-columns:130px 1fr 40px;gap:7px;align-items:center;font:11px 'JetBrains Mono',monospace}
+.prob-label{color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prob-bar{height:7px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden}
+.prob-fill{height:100%;border-radius:99px;transition:width .5s ease}
+.prob-val{color:var(--ink);text-align:right}
+.conf-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:8px;padding:3px 9px;border-radius:7px;
+  font:11px 'JetBrains Mono',monospace;
+  background:rgba(255,255,255,.04);border:1px solid var(--b);color:var(--ink2);
+}
+.dcard-kv{margin-top:7px;font:11px 'JetBrains Mono',monospace;color:var(--ink3);line-height:1.8}
+.dcard-kv .k{color:var(--ink2)}
+
+/* ── Buttons ── */
+.btn-ghost{
+  background:none;border:1px solid var(--b2);
+  color:var(--ink2);padding:4px 10px;border-radius:6px;
+  font:12px Inter,sans-serif;cursor:pointer;
+  transition:border-color .15s,color .15s;
+}
+.btn-ghost:hover{border-color:var(--brand);color:var(--ink)}
+.retry-btn{
+  margin-top:10px;
+  background:var(--brand);border:none;border-radius:7px;
+  color:#fff;padding:6px 14px;font:13px Inter,sans-serif;
+  cursor:pointer;transition:background .15s;
+}
+.retry-btn:hover{background:var(--brand2)}
+
+/* ── History sidebar strip ── */
+#history-strip{
+  flex-shrink:0;margin-top:10px;
+  border-top:1px solid var(--b);padding-top:8px;
+}
+.history-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.history-list{display:flex;flex-direction:column;gap:4px;max-height:90px;overflow-y:auto}
+.history-item{
+  font-size:11px;color:var(--ink2);
+  padding:3px 8px;border-radius:5px;
+  background:var(--s3);border:1px solid var(--b);
+  cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:background .12s;
+}
+.history-item:hover{background:var(--s4);color:var(--ink)}
+
+/* ── Report button ── */
+.report-btn{
+  display:flex;align-items:center;gap:6px;
+  margin-top:8px;background:none;
+  border:1px solid var(--b2);border-radius:7px;
+  color:var(--ink2);padding:5px 12px;
+  font:12px Inter,sans-serif;cursor:pointer;
+  transition:border-color .15s,color .15s;width:fit-content;
+}
+.report-btn:hover{border-color:var(--brand2);color:var(--ink)}
+
+/* ── Footer ── */
+footer{
+  height:30px;display:flex;align-items:center;padding:0 20px;
+  border-top:1px solid var(--b);background:var(--s1);
+  font-size:11px;color:var(--ink3);flex-shrink:0;gap:6px;
+}
+footer a{color:var(--ink2);text-decoration:none}
+footer a:hover{color:var(--brand2)}
+</style>
+</head>
+<body>
+<div id="app">
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">🩺</div>
+    <div>
+      <div class="logo-name">DesignDoctor <em>AI</em></div>
+      <div class="logo-sub">Website UI/UX Audit Agent</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <span class="pill" id="llm-pill">LLM: —</span>
+    <span class="pill pill-live" id="dec-pill">Decider: —</span>
+    <span class="pill" id="tgt-pill">local</span>
+  </div>
+</header>
+
+<main>
+  <!-- Left: conversation -->
+  <div class="pane">
+    <div class="pane-head">
+      <span class="pane-title">Audit Conversation</span>
+      <div style="display:flex;gap:6px">
+        <button class="report-btn" id="report-btn" title="Download JSON audit report">⬇ Report</button>
+        <button class="btn-ghost" id="reset-btn">↺ New session</button>
+      </div>
+    </div>
+
+    <div id="chat-scroll">
+      <div class="msg bot">
+        <div class="bubble bot md">
+          <p>👋 Hi — I'm <strong>DesignDoctor AI</strong>, your website UI/UX audit agent.</p>
+          <p>Give me a public URL and I'll run evidence-based analysis across accessibility, typography, layout, and performance. I'll always tell you <em>exactly what was checked and what wasn't</em>.</p>
+          <p><strong>Try:</strong></p>
+          <ul>
+            <li>Audit the accessibility of <code>https://example.com</code></li>
+            <li>Check the typography on <code>https://news.ycombinator.com</code></li>
+            <li>Is <code>https://example.com</code> mobile-friendly?</li>
+            <li>Run a performance audit on <code>https://example.com</code></li>
+          </ul>
+        </div>
+        <div class="bmeta">DesignDoctor AI · ready</div>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <div class="input-box">
+        <textarea id="msg" rows="1" placeholder="Enter a URL and describe what to audit…"></textarea>
+        <button id="send" title="Send (Enter)">➤</button>
+      </div>
+      <p class="input-hint">
+        Powered by <a href="https://strandsagents.com" target="_blank">Strands Agents</a> &amp;
+        Strands Decider 2B ·
+        <a href="https://www.awsugmdu.in" target="_blank">AWS User Group Madurai</a>
+      </p>
+    </div>
+
+    <div id="history-strip" style="display:none">
+      <div class="history-label">Recent audits this session</div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+  </div>
+
+  <!-- Right: decisions -->
+  <div class="pane">
+    <div class="pane-head">
+      <span class="pane-title">Strands Decider 2B — Tool Selection</span>
+      <span style="font-size:10px;color:var(--ink3)" id="dec-count"></span>
+    </div>
+    <div id="dec-scroll">
+      <div class="empty-dec" id="dec-empty">
+        <div class="empty-icon">🔬</div>
+        <p>Tool-selection decisions appear here after each audit request.</p>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--ink3);text-align:center;flex-shrink:0">
+      Built with the <a href="https://www.awsugmdu.in" target="_blank" style="color:var(--ink2);text-decoration:none">AWS User Group Madurai</a> Strands Decider hackathon kit
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>DesignDoctor AI</span><span style="color:var(--b2)">·</span>
+  <span>Agent Experience Hackathon: Strands Decider</span><span style="color:var(--b2)">·</span>
+  <a href="https://www.awsugmdu.in" target="_blank">AWS User Group Madurai</a>
+  <span style="margin-left:auto;font:10px 'JetBrains Mono',monospace;color:var(--ink3)">
+    #strands-decider-2b &nbsp;#tool-selection
+  </span>
+</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const chatEl=$('chat-scroll'), decEl=$('dec-scroll');
+
+// Session state
+let auditHistory=[], reportData=[], decTotal=0;
+
+// ── Header info ─────────────────────────────────────────────────────────────
+fetch('/api/info').then(r=>r.json()).then(i=>{
+  const llmPill=$('llm-pill');
+  llmPill.textContent='LLM: '+(i.llm||'—');
+  // Show live/dead status based on whether we know the LLM is up
+  $('dec-pill').textContent='Decider: '+(i.decider||'—');
+  $('tgt-pill').textContent=i.target==='agentcore'?'☁ AgentCore':'⬡ local';
+}).catch(()=>{});
+
+// ── Markdown renderer ───────────────────────────────────────────────────────
+function md(src){
+  src=src.replace(/```(\w*)\n([\s\S]*?)```/g,(_,l,c)=>`<pre><code>${esc(c.trimEnd())}</code></pre>`);
+  const lines=src.split('\n');
+  let html='',inList=null,listBuf='';
+  function flushList(){if(inList){html+=`<${inList}>${listBuf}</${inList}>`;inList=null;listBuf='';}}
+  function inline(s){
+    s=s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+    s=s.replace(/\*(.+?)\*/g,'<em>$1</em>');
+    s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+    s=s.replace(/\[CRITICAL\]/gi,'<span class="sev-c">[CRITICAL]</span>');
+    s=s.replace(/\[WARNING\]/gi,'<span class="sev-w">[WARNING]</span>');
+    s=s.replace(/\[INFO\]/gi,'<span class="sev-i">[INFO]</span>');
+    s=s.replace(/\b(\d{1,3})\/100\b/g,(_,n)=>{
+      const v=parseInt(n,10);
+      const c=v>=75?'sb-good':v>=50?'sb-warn':'sb-bad';
+      return `<span class="score-badge ${c}">⬤ ${n}/100</span>`;
+    });
+    return s;
+  }
+  for(const raw of lines){
+    if(raw.startsWith('<pre>')){flushList();html+=raw;continue;}
+    if(/^### /.test(raw)){flushList();html+=`<h3>${inline(esc(raw.slice(4)))}</h3>`;continue;}
+    if(/^## /.test(raw)){flushList();html+=`<h2>${inline(esc(raw.slice(3)))}</h2>`;continue;}
+    if(/^# /.test(raw)){flushList();html+=`<h1>${inline(esc(raw.slice(2)))}</h1>`;continue;}
+    if(/^---+$/.test(raw.trim())){flushList();html+='<hr>';continue;}
+    if(/^> /.test(raw)){flushList();html+=`<blockquote>${inline(esc(raw.slice(2)))}</blockquote>`;continue;}
+    if(/^[-*] /.test(raw)){if(inList!=='ul'){flushList();inList='ul';}listBuf+=`<li>${inline(esc(raw.slice(2)))}</li>`;continue;}
+    if(/^\d+\. /.test(raw)){if(inList!=='ol'){flushList();inList='ol';}listBuf+=`<li>${inline(esc(raw.replace(/^\d+\. /,'')))}</li>`;continue;}
+    if(!raw.trim()){flushList();html+='<br>';continue;}
+    flushList();html+=`<p>${inline(esc(raw))}</p>`;
+  }
+  flushList();
+  return html;
+}
+
+// ── Add message ──────────────────────────────────────────────────────────────
+function addMsg(role,content,meta='',isMarkdown=false){
+  const wrap=document.createElement('div');
+  wrap.className=`msg ${role}`;
+  const b=document.createElement('div');
+  b.className=`bubble ${role}${isMarkdown?' md':''}`;
+  if(isMarkdown)b.innerHTML=content;else b.textContent=content;
+  wrap.appendChild(b);
+  if(meta){const m=document.createElement('div');m.className='bmeta';m.textContent=meta;wrap.appendChild(m);}
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop=chatEl.scrollHeight;
+  return b;
+}
+
+// ── Typing indicator ─────────────────────────────────────────────────────────
+function showTyping(){
+  const w=document.createElement('div');w.className='msg bot';w.id='typing';
+  w.innerHTML='<div class="bubble bot typing-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  chatEl.appendChild(w);chatEl.scrollTop=chatEl.scrollHeight;
+}
+function hideTyping(){const w=$('typing');if(w)w.remove();}
+
+// ── Decision card ────────────────────────────────────────────────────────────
+function barColor(v){return v>=.65?'var(--green2)':v>=.40?'var(--amber2)':'var(--red2)';}
+
+function renderDecision(rec){
+  if($('dec-empty'))$('dec-empty').remove();
+  decTotal++;
+  $('dec-count').textContent=`${decTotal} decision${decTotal===1?'':'s'}`;
+
+  const chosen=rec.tool||'';
+  const narrowed=rec.narrowed;
+  const title=chosen?`→ ${chosen}`:(rec.stage||rec.pattern||'tool-selection');
+
+  let tagCls='ta',tagLabel='unsure — all tools';
+  if(narrowed===true&&chosen!=='none'){tagCls='tn';tagLabel='narrowed ✓';}
+  if(narrowed===true&&chosen==='none'){tagCls='tno';tagLabel='no tool';}
+  if(rec.verdict==='deny'){tagCls='td';tagLabel='deny';}
+
+  let probPairs=[];
+  if(rec.probabilities&&typeof rec.probabilities==='object'){
+    probPairs=Object.entries(rec.probabilities).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  }else{
+    probPairs=Object.entries(rec).filter(([k,v])=>typeof v==='number'&&v>=0&&v<=1&&!k.endsWith('_ms')).sort((a,b)=>b[1]-a[1]);
+  }
+
+  const barsHtml=probPairs.map(([k,v])=>`
+    <div class="prob-row">
+      <span class="prob-label" title="${esc(k)}">${esc(k)}</span>
+      <div class="prob-bar"><div class="prob-fill" style="width:${(v*100).toFixed(1)}%;background:${barColor(v)}"></div></div>
+      <span class="prob-val">${(v*100).toFixed(0)}%</span>
+    </div>`).join('');
+
+  const conf=rec.confidence!=null?rec.confidence:(probPairs[0]?probPairs[0][1]:null);
+  const confHtml=conf!=null
+    ?`<div class="conf-pill">confidence: ${(conf*100).toFixed(0)}%${rec.decider_ms!=null?` · ${Math.round(rec.decider_ms)}ms`:''}</div>`
+    :(rec.decider_ms!=null?`<div class="conf-pill">${Math.round(rec.decider_ms)}ms</div>`:'');
+
+  const skip=new Set(['verdict','action','tool','stage','pattern','probabilities','narrowed','confidence','decider_ms']);
+  const kvHtml=Object.entries(rec)
+    .filter(([k,v])=>!skip.has(k)&&!(typeof v==='number'&&v>=0&&v<=1))
+    .map(([k,v])=>`<span class="k">${esc(k)}:</span> ${esc(typeof v==='object'?JSON.stringify(v):v)}`)
+    .join('  ·  ');
+
+  const card=document.createElement('div');
+  card.className='dcard';
+  card.innerHTML=`
+    <div class="dcard-head">
+      <span class="dcard-title">${esc(title)}</span>
+      <span class="dcard-tag ${tagCls}">${tagLabel}</span>
+    </div>
+    <div class="prob-list">${barsHtml}</div>
+    ${confHtml}
+    ${kvHtml?`<div class="dcard-kv">${kvHtml}</div>`:''}`;
+  decEl.prepend(card);
+}
+
+// ── History ──────────────────────────────────────────────────────────────────
+function addHistory(msg){
+  auditHistory.push(msg);
+  const strip=$('history-strip');
+  const list=$('history-list');
+  strip.style.display='block';
+  const item=document.createElement('div');
+  item.className='history-item';
+  item.title=msg;
+  item.textContent=msg;
+  item.onclick=()=>{$('msg').value=msg;autoResize();};
+  list.insertBefore(item,list.firstChild);
+}
+
+// ── Report download ───────────────────────────────────────────────────────────
+$('report-btn').addEventListener('click',()=>{
+  if(!reportData.length){alert('No audit results yet — run an audit first.');return;}
+  const blob=new Blob([JSON.stringify({
+    generated:new Date().toISOString(),
+    agent:'DesignDoctor AI',
+    powered_by:'Strands Decider 2B + Amazon Bedrock / UGMdu',
+    audits:reportData,
+  },null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`designdoctor-report-${Date.now()}.json`;
+  a.click();
+});
+
+// ── Send ──────────────────────────────────────────────────────────────────────
+let busy=false;
+window._lastMsg=null;
+
+async function send(){
+  if(busy)return;
+  const text=$('msg').value.trim();
+  if(!text)return;
+  $('msg').value='';autoResize();
+
+  busy=true;$('send').disabled=true;
+  window._lastMsg=text;
+  addMsg('user',text);
+  showTyping();
+
+  try{
+    const res=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({message:text,session_id:'demo'}),
+    });
+    const out=await res.json();
+    hideTyping();
+
+    // Always render Decider decisions regardless of LLM outcome
+    (out.decisions||[]).forEach(renderDecision);
+
+    if(out.error){
+      if(out.retryable){
+        const wrap=document.createElement('div');wrap.className='msg bot';
+        const b=document.createElement('div');b.className='bubble bot md';
+        b.innerHTML=`<p>⚠️ <strong>Temporary service issue</strong></p><p>${esc(out.error)}</p><button class="retry-btn" onclick="window.retryLast()">↺ Retry</button>`;
+        wrap.appendChild(b);chatEl.appendChild(wrap);chatEl.scrollTop=chatEl.scrollHeight;
+      }else{
+        addMsg('bot',`<p>⚠️ <strong>Error</strong><br>${esc(out.error)}</p>`,'',true);
+      }
+    }else{
+      // Store for report
+      reportData.push({timestamp:new Date().toISOString(),query:text,reply:out.reply,decisions:out.decisions,latency_ms:out.latency_ms});
+      addHistory(text);
+      const n=(out.decisions||[]).length;
+      const ms=out.latency_ms!=null?`${(Math.round(out.latency_ms/100)/10).toFixed(1)}s`:'';
+      const meta=[ms,`${n} decision${n===1?'':'s'}`,out.served_by].filter(Boolean).join(' · ');
+      addMsg('bot',md(out.reply||''),meta,true);
+    }
+  }catch(e){
+    hideTyping();
+    addMsg('bot',`<p>⚠️ Network error: ${esc(String(e))}</p>`,'',true);
+  }finally{
+    busy=false;$('send').disabled=false;
+  }
+}
+
+// ── Retry ─────────────────────────────────────────────────────────────────────
+window.retryLast=function(){
+  if(window._lastMsg){$('msg').value=window._lastMsg;send();}
+};
+
+// ── Resize ────────────────────────────────────────────────────────────────────
+function autoResize(){const t=$('msg');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,100)+'px';}
+$('msg').addEventListener('input',autoResize);
+$('msg').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+$('send').addEventListener('click',send);
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+$('reset-btn').addEventListener('click',async()=>{
+  await fetch('/api/reset',{method:'POST'}).catch(()=>{});
+  auditHistory=[];reportData=[];decTotal=0;
+  chatEl.innerHTML='';
+  decEl.innerHTML=`<div class="empty-dec" id="dec-empty"><div class="empty-icon">🔬</div><p>Tool-selection decisions appear here after each audit request.</p></div>`;
+  $('dec-count').textContent='';
+  $('history-strip').style.display='none';
+  $('history-list').innerHTML='';
+  addMsg('bot','<p>Session reset. Enter a URL to start a new audit.</p>','DesignDoctor AI · ready',true);
+});
+</script>
+</body>
+</html>

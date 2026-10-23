@@ -1,0 +1,22 @@
+title: "DesignDoctor AI: a website UI/UX audit agent powered by Strands Decider 2B"
+pitch: "Enter any public URL and get evidence-based UI/UX findings — accessibility, typography, layout, and performance hints — with Strands Decider 2B routing each audit step."
+features:
+  - "audit accessibility: ARIA, alt text, colour contrast, keyboard nav"
+  - "audit typography: heading hierarchy, font sizes, readability"
+  - "audit layout: responsive design, viewport, fixed widths, overflow"
+  - "audit performance hints: render-blocking scripts, lazy loading, meta tags"
+  - "Strands Decider 2B selects the right tool — genuine tool-selection decisions"
+  - "runs on Amazon Bedrock AgentCore Runtime"
+eager: false
+intro: "DesignDoctor AI is a website UI/UX audit agent. The user types a URL and a question; Strands Decider 2B picks the right audit tool before the LLM turn, keeping the agent fast and focused."
+intro_normal: "DesignDoctor AI runs on Amazon Bedrock AgentCore Runtime. The user types a URL and a question; Strands Decider 2B picks the right audit tool for each request."
+turns:
+  - say: "Audit the accessibility of https://example.com"
+    narrate: "The user asks for an accessibility audit. Strands Decider 2B decides which tool to run."
+  - say: "Now check the typography and heading structure."
+    narrate: "The user asks about typography. The decider routes to a different specialised tool."
+  - say: "Is this page going to look broken on a phone?"
+    narrate: "A mobile layout question. The decider picks the layout audit tool."
+  - say: "Summarise the top 3 improvements I should make."
+    narrate: "No new audit is needed here. The decider returns none and the LLM answers from prior findings."
+outro: "Four specialised audit tools, one forward pass per routing decision, and calibrated confidence the code can act on — Strands Decider 2B keeps DesignDoctor AI fast, cheap, and focused."

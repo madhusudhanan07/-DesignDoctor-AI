@@ -1,0 +1,28 @@
+{"state": "User request: Check if this site is accessible for screen readers — https://example.com", "expected": {"tool": "audit_accessibility"}, "split": "tune"}
+{"state": "User request: Are there any alt text issues on https://example.com?", "expected": {"tool": "audit_accessibility"}, "split": "tune"}
+{"state": "User request: Does https://example.com pass WCAG colour contrast requirements?", "expected": {"tool": "audit_accessibility"}, "split": "tune"}
+{"state": "User request: Check the fonts and heading sizes on https://example.com", "expected": {"tool": "audit_typography"}, "split": "tune"}
+{"state": "User request: Is the heading structure on https://example.com correct?", "expected": {"tool": "audit_typography"}, "split": "tune"}
+{"state": "User request: How readable is the text on https://example.com?", "expected": {"tool": "audit_typography"}, "split": "tune"}
+{"state": "User request: Does https://example.com look good on mobile?", "expected": {"tool": "audit_layout"}, "split": "tune"}
+{"state": "User request: Is this page responsive? https://example.com", "expected": {"tool": "audit_layout"}, "split": "tune"}
+{"state": "User request: Check the spacing and grid layout on https://example.com", "expected": {"tool": "audit_layout"}, "split": "tune"}
+{"state": "User request: Why is https://example.com loading slowly?", "expected": {"tool": "audit_performance_hints"}, "split": "tune"}
+{"state": "User request: Does https://example.com have render-blocking scripts?", "expected": {"tool": "audit_performance_hints"}, "split": "tune"}
+{"state": "User request: Are images lazily loaded on https://example.com?", "expected": {"tool": "audit_performance_hints"}, "split": "tune"}
+{"state": "Conversation so far:\nUser: I just audited https://example.com for accessibility.\nAssistant: Here are the accessibility findings...\n\nUser request: What were the top issues again?", "expected": {"tool": "none"}, "split": "tune"}
+{"state": "User request: What is the difference between WCAG AA and AAA?", "expected": {"tool": "none"}, "split": "tune"}
+{"state": "User request: Run a full ARIA audit on https://example.com — I need to know if screen readers can navigate it", "expected": {"tool": "audit_accessibility"}, "split": "test"}
+{"state": "User request: Are there any images on https://example.com missing alt text?", "expected": {"tool": "audit_accessibility"}, "split": "test"}
+{"state": "User request: Check keyboard navigation issues on https://example.com", "expected": {"tool": "audit_accessibility"}, "split": "test"}
+{"state": "User request: Look at the typography hierarchy on https://example.com — are the headings in order?", "expected": {"tool": "audit_typography"}, "split": "test"}
+{"state": "User request: Font sizes seem tiny on https://example.com, can you check?", "expected": {"tool": "audit_typography"}, "split": "test"}
+{"state": "User request: Does https://example.com have a meta description?", "expected": {"tool": "audit_typography"}, "split": "test"}
+{"state": "User request: Will https://example.com break on a 375 px wide phone screen?", "expected": {"tool": "audit_layout"}, "split": "test"}
+{"state": "User request: Check for fixed pixel widths that could cause overflow on https://example.com", "expected": {"tool": "audit_layout"}, "split": "test"}
+{"state": "User request: Does the layout of https://example.com use media queries?", "expected": {"tool": "audit_layout"}, "split": "test"}
+{"state": "User request: How many render-blocking resources does https://example.com have?", "expected": {"tool": "audit_performance_hints"}, "split": "test"}
+{"state": "User request: Is https://example.com optimised for Core Web Vitals?", "expected": {"tool": "audit_performance_hints"}, "split": "test"}
+{"state": "User request: Check whether https://example.com has a proper page title and charset", "expected": {"tool": "audit_performance_hints"}, "split": "test"}
+{"state": "Conversation so far:\nUser: Audit https://example.com for performance.\nAssistant: Performance audit complete. Score: 72/100.\n\nUser request: Summarise all the issues you found.", "expected": {"tool": "none"}, "split": "test"}
+{"state": "User request: What does WCAG 2.4.4 mean?", "expected": {"tool": "none"}, "split": "test"}
