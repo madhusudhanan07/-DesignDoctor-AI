@@ -48,8 +48,8 @@ class Settings:
 
 def settings() -> Settings:
     load_dotenv()
-    mode = os.environ.get("DECIDER_MODE", "local")
-    default_url = {"local": LOCAL_DECIDER_URL, "ugmdu": UGMDU_DECIDER_URL}.get(mode, LOCAL_DECIDER_URL)
+    mode = os.environ.get("DECIDER_MODE", "ugmdu")
+    default_url = {"local": LOCAL_DECIDER_URL, "ugmdu": UGMDU_DECIDER_URL}.get(mode, UGMDU_DECIDER_URL)
     return Settings(
         decider_mode=mode,
         decider_url=os.environ.get("DECIDER_URL", default_url).rstrip("/"),
